@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: interview-partner
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:interview_partner}?sslmode=require
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+# ============================================
+# APP CONFIGURATION
+# ============================================
+app:
+  jwt:
+    secret: ${JWT_SECRET:your-256-bit-secret-key-here-must-be-at-least-32-characters}
+    expiration-ms: 86400000  # 24 hours
+
+  ai:
+    provider: ${AI_PROVIDER:openrouter}
+    api-key: ${OPENROUTER_API_KEY:}
+    model: ${AI_MODEL:openai/gpt-3.5-turbo}
+    temperature: ${AI_TEMPERATURE:0.7}
+    max-tokens: ${AI_MAX_TOKENS:2000}
+    timeout: ${AI_TIMEOUT:30000}
+
+# ============================================
+# OPENROUTER SPECIFIC CONFIG
+# ============================================
+openrouter:
+  api:
+    url: https://openrouter.ai/api/v1/chat/completions
+    site-url: ${OPENROUTER_SITE_URL:http://localhost:8080}
+    site-name: ${OPENROUTER_SITE_NAME:Interview Partner}
+
+# ============================================
+# LOGGING
+# ============================================
+logging:
+  level:
+    com.interviewpartner: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO

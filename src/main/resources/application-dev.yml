@@ -1,0 +1,4 @@
+app:
+  ai:
+    api-key: sk-or-your-openrouter-key-here
+    model: openai/gpt-3.5-turbo  # or anthropic/claude-3-haiku, google/gemini-flash, etc.
